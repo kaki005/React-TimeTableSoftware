@@ -1,17 +1,15 @@
 import { parse } from "querystring";
-import React, {useState} from "react";
+import React, {useState, useContext } from "react";
 import { ECategory } from "../model/Subject";
 import Subject from "../model/Subject";
 import SubjectManager from "../model/SubjectsManager";
+import { formContext } from "./TimeTable";
+import SaveSubjects from "../model/JsonManager";
 
 
-
-/*interface IProps  {
-    subject: Subject | null,
-    manager: SubjectManager
-};
+const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 const headers = ["月", "火", "水", "木", "金"];
-const colorList: {[name:string] : string} = {
+export const colorList: {[name:string] : string} = {
     "黄色" : "#FFFF66",
     "水色" : "#99FFFF",
     "ピンク": "#FFAAFF",
@@ -21,32 +19,26 @@ const colorList: {[name:string] : string} = {
     "赤": "#FF519",
     "白": "white",
   };
-  const toNameList: {[name:string] : string} = {};
+  export const toNameList: {[name:string] : string} = {};
   Object.keys(colorList).forEach(name => { 
         toNameList[colorList[name]] = name;
   });
+  const manager = new SubjectManager();
 
-const EditForm :React.FC<IProps> = (props :IProps) =>{
-    const [selectedSubject, setSubject] = React.useState({
-        id : 0,
-        isRegistered: false,
-        tempColor: "",
-        tempName: "",
-        tempDegree : 2,
-        tempCategory : ECategory.None,
-        subject : props.subject
-    });
+const EditForm :React.FC = () =>{
+    const {selectedSubject, setSubject, TimeTable, setTimeTable} = useContext(formContext);
     // 値をリセット
     const Clear = () => {
         setSubject({
             ...selectedSubject,
+            id : selectedSubject.id,
             isRegistered: false,
             tempName: "",
             tempDegree : 2,
             tempCategory : ECategory.None,
         });
     }
-    const Cancel = () =>{
+    /*const Cancel = () =>{
         setSubject({
             ...selectedSubject,
             tempName: selectedSubject.subject.SubjectName,
@@ -54,7 +46,15 @@ const EditForm :React.FC<IProps> = (props :IProps) =>{
             tempColor: selectedSubject.subject.Color,
             tempCategory: selectedSubject.subject.Category,
         });
-    }
+    }*/
+
+    const DeleteSubject = () => {
+        if(TimeTable[selectedSubject.id].Time.length > 1) {
+            TimeTable[selectedSubject.id].ReduceTime(selectedSubject.id);
+        }
+        TimeTable[selectedSubject.id] = defaultSub;
+        setTimeTable(TimeTable);
+    };
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
         const name :string = e.target.name;
         setSubject({
@@ -63,17 +63,73 @@ const EditForm :React.FC<IProps> = (props :IProps) =>{
         });
     }
 
-    return (
-        <div className="FormContainer">
-            <h3>{headers[selectedSubject.id%10]}曜日{Math.floor(selectedSubject.id/10)+1}限目</h3>
-            <form>
-            <input type="radio" name="isOriginal">既存の科目を登録</input>
-            <input type="radio" name="isOriginal">新しい科目を登録</input>
+    const onSubmit = (e: React.FormEvent) =>{
+        e.preventDefault();
+        if(TimeTable[selectedSubject.id].Time.length> 1) {
+            let ans = window.confirm("同じ授業の他の時間のデータも変更しますか？");
+            if(ans === true) {
+                TimeTable[selectedSubject.id].ChangeData(selectedSubject.tempName, colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
+            }
+            else {
+                TimeTable[selectedSubject.id].ReduceTime(selectedSubject.id);
+                TimeTable[selectedSubject.id] = new Subject(selectedSubject.tempName,  [selectedSubject.id] ,colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
+            }
+        }
+        else {
+            TimeTable[selectedSubject.id].ChangeData(selectedSubject.tempName, colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
+        }
+        setTimeTable([...TimeTable]);
+        
+    }
+
+    const RegisterSubject =() =>{
+        TimeTable[selectedSubject.id] = new Subject(selectedSubject.tempName, [selectedSubject.id], colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
+        setTimeTable(TimeTable);
+    }
+
+    const RegisterExistingSubject = () =>{
+        alert(selectedSubject.tempName);
+        const sub : (Subject | undefined) = TimeTable.find(x => x != undefined && x.SubjectName === selectedSubject.tempName);
+        sub?.AddTime(selectedSubject.id);
+        if(sub != undefined){
+            alert("succeeded");
+            TimeTable[selectedSubject.id] = sub;
+        }
+        else { alert("aqaa");}
+        setTimeTable(TimeTable);
+    }
+
+
+    const handleBeforeUnload = (e :any) =>{
+        SaveSubjects(TimeTable);
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+
+    return <div>
+        <h3>{headers[selectedSubject.id%10]}曜日{Math.floor(selectedSubject.id/10)+1}限目</h3>
+        <form>
+            {selectedSubject.isRegistered
+                ? null
+                : (<div>
+                    <input  type="radio" name="selectOption" value="new" onChange={onChanged} checked={selectedSubject.selectOption === "new"}/>新しく科目を作成して登録<br />
+                    <input  type="radio" value="existing" name="selectOption" onChange={onChanged} checked={selectedSubject.selectOption === "existing"} />既存の科目を登録
+                </div>)
+            }
+            {selectedSubject.selectOption === "existing" && selectedSubject.isRegistered === false
+            ?
+                <select name="tempName" onChange={onChanged} value={selectedSubject.tempName}>
+                    {manager.GetSubjectList().map(key => <option>{key.SubjectName}</option>)}
+                </select>
+            :
             <table>
-                <tr>
-                    <th key={0}>教科名</th>
-                    <th key={1}><input type="text" value={selectedSubject.tempName} name="tempName" onChange={onChanged}/></th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th key={0}>教科名</th>
+                        <th key={1}><input type="text"  key="inputName" value={selectedSubject.tempName} name="tempName" onChange={onChanged}/></th>
+                    </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <th key={0}>単位</th>
                     <th key={1}>
@@ -87,7 +143,7 @@ const EditForm :React.FC<IProps> = (props :IProps) =>{
                     <th key={0}>色</th>
                     <th key={1}>
                         <select value={selectedSubject.tempColor} name="tempColor" onChange={onChanged}>
-                            {Object.keys(colorList).map(key => <option>{key}</option>)}
+                            {Object.keys(colorList).map(key => <option key={key}>{key}</option>)}
                         </select>
                     </th>
                 </tr>
@@ -95,26 +151,35 @@ const EditForm :React.FC<IProps> = (props :IProps) =>{
                     <th key={0}>区分</th>
                     <th key={1}>
                         <select value={selectedSubject.tempCategory} name="tempCategory" onChange={onChanged}>
-                            {props.manager.Categories.map(key => <option>{key}</option>)}
+                            {manager.Categories.map(value => value !=="" ? <option key={value}>{value}</option> : null)}
                         </select>
                     </th>
                 </tr>
+                </tbody>
             </table>
-            </form>
+            }
+        </form>
     
             {selectedSubject.isRegistered ?
                 <div>
                     <button onClick={onSubmit}>変更を保存</button>
-                    <button onClick={Cancel}>もとに戻す</button>
+                    <button onClick={DeleteSubject}>削除</button>
+
                     <button onClick={Clear}>クリア</button>
                 </div>
-                : <div>
-                    <button onClick={RegisterSubject}>新規登録</button>
-                    <button onClick={Clear}>クリア</button>
-                </div>
+                : selectedSubject.selectOption === "new"
+                    ?(<div>
+                        <button onClick={RegisterSubject}>新規登録</button>
+                        <button onClick={Clear}>クリア</button>
+                    </div>)
+                    :(
+                        <div>
+                            <button onClick={RegisterExistingSubject}>科目を登録</button>
+                        </div>
+                    )
             
             }
-        </div>
-    );
-};*/
-//export default EditForm;
+    </div>
+
+}
+export default EditForm;
