@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.TimeTable {
+  width: 100%;
+  height: 600px;
+  border: 1;
+  table-layout: fixed;
+}
+.TimeTable th,
+.TimeTable td {
+    border: 1px solid #CCCCCC;
+    text-align: center;
+}
+
+
+.Cell {
+  height: 180;
+}
+
+.Container {
+  flex-direction: horizontal;
+}
+
+.TableContainer {
+  display: inline-block;
+  padding-right: 40px;
+  width: 50%;
+}
+
+.FormContainer {
+  vertical-align: top;
+  display: inline-block;
+  width: 40%;
+}
+.Form {
+  display: block;
+}
+
+
+.DegreeCounter {
+  padding-top: 3px;
+  height: 100px;
+  width: 100%;
+  background-color: var(--counter-color,#5ab4bd);
+}
+.DegreeCounter th,
+.DegreeCounter td {
+  border: 1px solid white;
+  text-align: center;
+  width: 400px;
+  background-color: white;
+}
+
+.tabs {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  margin-top: 100px;
+  align-content: left;
+}
+
+  .tab_item {
+    width: calc(100%/3);
+    height: 40px;
+    background-color: #d9d9d9;
+    line-height: 50px;
+    font-size: 15px;
+    text-align: center;
+    color: #565656;
+    display: block;
+    float: left;
+    text-align: center;
+    font-weight: bold;
+    transition: all 0.2s ease;
+  }
+
+  .tab {
+    display: none;
+  }
+
+  .tab_content {
+    clear: both;
+    overflow: hidden;
+  }
+
+  .tabs input:checked + .tab_item {
+  background-color: var(--counter-color,#5ab4bd);
+  color:black;
+}
