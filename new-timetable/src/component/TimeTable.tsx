@@ -1,64 +1,23 @@
 
-import React, {useState} from "react";
-
+import React, {useState, useContext} from "react";
 import Subject, { ECategory } from "../model/Subject";
 import TableCell from "./TimeTableCell";
+import { formContext } from "../App";
 import { MouseEvent } from "react";
 import SubjectManager from "../model/SubjectsManager";
 import EditForm, {colorList, toNameList} from "./EditForm";
 import Counter from "./Counter";
 
-interface IProp {
-    //subjects : Subject[],
-}
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 const headers = ["","月", "火", "水", "木", "金"];
 const times = [1, 2, 3, 4, 5];
 const manager = SubjectManager.Instance;
 
-interface IFormInfo {
-    id: number;
-    isRegistered: boolean;
-    tempColor: string;
-    tempName: string;
-    tempDegree: number;
-    tempCategory: ECategory;
-    selectOption: string;
-    canEdit : boolean;
+interface IProp {
 }
 
-
-export const formContext = React.createContext({} as {
-    selectedSubject :IFormInfo
-    setSubject : React.Dispatch<React.SetStateAction<IFormInfo>>,
-    TimeTable : Subject[],
-    setTimeTable : React.Dispatch<React.SetStateAction<Subject[]>>
-});
-
-const TimeTable :React.FC<IProp> = (props : IProp) => {
-    // 初期化
-    //const initalSubject = new Subject("aa", [2], "");
-    //const CELL_MAX = 10* (times.length + 1);
-    const [TimeTable, setTimeTable] = useState(manager.TimeTable);
-    const [selectedSubject, setSubject] = useState({
-        id : 0,
-        isRegistered: false,
-        tempColor: "",
-        tempName: "",
-        tempDegree : 2,
-        tempCategory : ECategory.None,
-        selectOption: "new",
-        canEdit : false,
-    });
-    const formValue = {
-        selectedSubject,
-        setSubject,
-        TimeTable,
-        setTimeTable,
-    };
-
-    
-
+const TimeTables: React.VFC<IProp> = (prop :IProp) => {
+    const {selectedSubject, setSubject, TimeTable, setTimeTable} = useContext(formContext);
     // 選択されたコマのデータをフォームに登録
     const setDataForm = (e :MouseEvent<HTMLElement>) =>{
         let idstr = e.currentTarget.dataset.id as string;
@@ -92,11 +51,8 @@ const TimeTable :React.FC<IProp> = (props : IProp) => {
         }
     }
 
-
     // 描画
     return (
-    <div className="Container">
-    <div className="TableContainer">   
         <table className="TimeTable">
             <thead>
                 <tr >
@@ -118,15 +74,6 @@ const TimeTable :React.FC<IProp> = (props : IProp) => {
                 </tr>
             })}
             </tbody>
-        </table>
-    </div>
-
-    <div className="FormContainer">
-        <formContext.Provider value={formValue}>
-        <EditForm />
-        </formContext.Provider>
-        <Counter subject={TimeTable}/>
-    </div>
-</div>);
+        </table>);
 };
-export default TimeTable;
+export default TimeTables;

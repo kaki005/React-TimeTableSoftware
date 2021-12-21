@@ -47,6 +47,11 @@ code {
   display: block;
 }
 
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .DegreeCounter {
   padding-top: 3px;

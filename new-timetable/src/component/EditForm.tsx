@@ -3,7 +3,7 @@ import React, {useState, useContext, useRef } from "react";
 import { ECategory } from "../model/Subject";
 import Subject from "../model/Subject";
 import SubjectManager from "../model/SubjectsManager";
-import { formContext } from "./TimeTable";
+import { formContext } from "../App";
 import SaveSubjects from "../model/JsonManager";
 import userEvent from "@testing-library/user-event";
 
@@ -122,7 +122,7 @@ const EditForm :React.FC = () =>{
     window.addEventListener('beforeunload', handleBeforeUnload);
 
 
-    return <div>
+    return <div className="Form">
         <h3>{headers[selectedSubject.id%10]}曜日{Math.floor(selectedSubject.id/10)+1}限目</h3>
         <form>
             {selectedSubject.isRegistered
@@ -138,7 +138,7 @@ const EditForm :React.FC = () =>{
                     {manager.GetSubjectList().map(key => <option>{key.SubjectName}</option>)}
                 </select>
             :
-            <table>
+            <table className="FormTable">
                 <thead>
                     <tr>
                         <th key={0}>教科名</th>
