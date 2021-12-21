@@ -17,8 +17,10 @@ export default class SubjectManager {
     }
     private categories = Object.keys(ECategory);
 
-    GetSubject(id: number) : Subject {
-        return this.timeTable[id];
+    // シングルトン用のインスタンス
+    private static _instance : SubjectManager = new SubjectManager();
+    public static get  Instance () :SubjectManager {
+        return this._instance;
     }
 
 
@@ -33,7 +35,7 @@ export default class SubjectManager {
     };
 
     CountDegree(subjects : Subject[]) : number[] {
-        var list : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var list : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let isRegistered = new Array<boolean>(subjects.length);
         isRegistered = isRegistered.map(item => false);
         subjects.forEach((subject, id) => {

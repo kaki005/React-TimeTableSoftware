@@ -1,10 +1,11 @@
 import { parse } from "querystring";
-import React, {useState, useContext } from "react";
+import React, {useState, useContext, useRef } from "react";
 import { ECategory } from "../model/Subject";
 import Subject from "../model/Subject";
 import SubjectManager from "../model/SubjectsManager";
 import { formContext } from "./TimeTable";
 import SaveSubjects from "../model/JsonManager";
+import userEvent from "@testing-library/user-event";
 
 
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
@@ -16,14 +17,14 @@ export const colorList: {[name:string] : string} = {
     "緑"  : "#93FFAB",
     "青" : "#75A9FF",
     "灰色" : "#BBBBBB",
-    "赤": "#FF519",
+    "赤": "#FF5190",
     "白": "white",
   };
-  export const toNameList: {[name:string] : string} = {};
-  Object.keys(colorList).forEach(name => { 
+export const toNameList: {[name:string] : string} = {};
+Object.keys(colorList).forEach(name => { 
         toNameList[colorList[name]] = name;
   });
-  const manager = new SubjectManager();
+const manager = SubjectManager.Instance;
 
 const EditForm :React.FC = () =>{
     const {selectedSubject, setSubject, TimeTable, setTimeTable} = useContext(formContext);
@@ -79,26 +80,41 @@ const EditForm :React.FC = () =>{
             TimeTable[selectedSubject.id].ChangeData(selectedSubject.tempName, colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
         }
         setTimeTable([...TimeTable]);
+        setSubject({
+            ...selectedSubject,
+            canEdit : false,
+        });
         
     }
 
     const RegisterSubject =() =>{
         TimeTable[selectedSubject.id] = new Subject(selectedSubject.tempName, [selectedSubject.id], colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
         setTimeTable(TimeTable);
+        setSubject({
+            ...selectedSubject,
+            canEdit : false,
+        });
     }
 
     const RegisterExistingSubject = () =>{
-        alert(selectedSubject.tempName);
         const sub : (Subject | undefined) = TimeTable.find(x => x != undefined && x.SubjectName === selectedSubject.tempName);
         sub?.AddTime(selectedSubject.id);
         if(sub != undefined){
-            alert("succeeded");
             TimeTable[selectedSubject.id] = sub;
         }
-        else { alert("aqaa");}
         setTimeTable(TimeTable);
+        setSubject({
+            ...selectedSubject,
+            canEdit : false,
+        });
     }
 
+    const StartEdit = () => {
+        setSubject({
+            ...selectedSubject,
+            canEdit : true
+        })
+    }
 
     const handleBeforeUnload = (e :any) =>{
         SaveSubjects(TimeTable);
@@ -151,7 +167,7 @@ const EditForm :React.FC = () =>{
                     <th key={0}>区分</th>
                     <th key={1}>
                         <select value={selectedSubject.tempCategory} name="tempCategory" onChange={onChanged}>
-                            {manager.Categories.map(value => value !=="" ? <option key={value}>{value}</option> : null)}
+                            {manager.Categories.map((value, idx) => value !=="" ? <option key={idx+1}>{value}</option> : null)}
                         </select>
                     </th>
                 </tr>
@@ -161,22 +177,22 @@ const EditForm :React.FC = () =>{
         </form>
     
             {selectedSubject.isRegistered ?
-                <div>
+                selectedSubject.canEdit? (<div>
                     <button onClick={onSubmit}>変更を保存</button>
                     <button onClick={DeleteSubject}>削除</button>
-
                     <button onClick={Clear}>クリア</button>
-                </div>
-                : selectedSubject.selectOption === "new"
-                    ?(<div>
-                        <button onClick={RegisterSubject}>新規登録</button>
-                        <button onClick={Clear}>クリア</button>
-                    </div>)
-                    :(
-                        <div>
-                            <button onClick={RegisterExistingSubject}>科目を登録</button>
-                        </div>
-                    )
+                </div>)
+                : <button onClick={StartEdit}>編集</button>
+            : selectedSubject.selectOption === "new"
+                ?(<div>
+                    <button onClick={RegisterSubject}>新規登録</button>
+                    <button onClick={Clear}>クリア</button>
+                </div>)
+                :(
+                    <div>
+                        <button onClick={RegisterExistingSubject}>科目を登録</button>
+                    </div>
+                )
             
             }
     </div>

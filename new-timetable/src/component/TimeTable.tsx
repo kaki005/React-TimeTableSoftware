@@ -14,7 +14,7 @@ interface IProp {
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 const headers = ["","月", "火", "水", "木", "金"];
 const times = [1, 2, 3, 4, 5];
-const manager = new SubjectManager();
+const manager = SubjectManager.Instance;
 
 interface IFormInfo {
     id: number;
@@ -24,6 +24,7 @@ interface IFormInfo {
     tempDegree: number;
     tempCategory: ECategory;
     selectOption: string;
+    canEdit : boolean;
 }
 
 
@@ -46,7 +47,8 @@ const TimeTable :React.FC<IProp> = (props : IProp) => {
         tempName: "",
         tempDegree : 2,
         tempCategory : ECategory.None,
-        selectOption: "new"
+        selectOption: "new",
+        canEdit : false,
     });
     const formValue = {
         selectedSubject,
@@ -57,11 +59,10 @@ const TimeTable :React.FC<IProp> = (props : IProp) => {
 
     
 
-    
+    // 選択されたコマのデータをフォームに登録
     const setDataForm = (e :MouseEvent<HTMLElement>) =>{
         let idstr = e.currentTarget.dataset.id as string;
         let id = parseInt(idstr, 10);
-        alert(id);
         // eslint-disable-next-line
         if(TimeTable[id] != undefined) {
             setSubject({
@@ -72,7 +73,8 @@ const TimeTable :React.FC<IProp> = (props : IProp) => {
                 tempDegree  : TimeTable[id].Degree,
                 tempCategory: TimeTable[id].Category,
                 //subject : TimeTable[id].Clone(),
-                selectOption : "new"
+                selectOption : "new",
+                canEdit : false,
             });
         }
         else {      // 登録されていなければ
@@ -84,7 +86,8 @@ const TimeTable :React.FC<IProp> = (props : IProp) => {
                 tempDegree  : defaultSub.Degree,
                 tempCategory: defaultSub.Category,
                 //subject: defaultSub,
-                selectOption : "new"
+                selectOption : "new",
+                canEdit : true,
             });
         }
     }

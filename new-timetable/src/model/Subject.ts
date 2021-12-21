@@ -1,7 +1,7 @@
 //import react from "react";
 
 
-class Subject {
+export default class Subject {
     constructor(private name:string, private time:number[], private color:string, private degree:number, private category:ECategory) {};
 
     get SubjectName() :string
@@ -43,7 +43,6 @@ class Subject {
         return new Subject(this.name, this.time, this.color, this.degree, this.category);
     }
 };
-export default Subject;
 
 export enum ECategory {
     None,
@@ -55,6 +54,12 @@ export enum ECategory {
     F,
     G,
     H,
-    White,
-    Other,
+    "英語",
+    "基盤教養",
+    "専門基礎",
+    "その他",
+}
+
+interface ITranslator {
+    [id: string]: string;
 }

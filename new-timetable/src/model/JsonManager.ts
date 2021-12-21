@@ -32,7 +32,6 @@ export function GetSubjects() : [Subject[], boolean[]] {
     var subjects :Array<Subject> = new Array(CELL_MAX);
     var registerdList : boolean[] = new Array(CELL_MAX);
     registerdList = registerdList.map(item => false);
-
     var json:string = localStorage.getItem(STORAGE_NAME) ?? "";
     var list :parseSubject[] = JSON.parse(json) as parseSubject[];
     list.forEach(item => {

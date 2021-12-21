@@ -1,13 +1,11 @@
 import { count } from "console";
 import React from "react";
-import Subject, { ECategory } from "../model/Subject";
+import Subject, { ECategory, } from "../model/Subject";
 import SubjectsManager from "../model/SubjectsManager";
 
 interface IProps {
     subject : Subject[]
 };
-
-
 
 
 const Counter : React.VFC<IProps>  = (props :IProps) =>{
@@ -47,9 +45,9 @@ const Counter : React.VFC<IProps>  = (props :IProps) =>{
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        {counts.map((count, idx) => idx > 0 ? <th key={idx}>{count}</th> : null) }
-                    </tr>
+                        <tr>
+                            {counts.map((count, idx) => idx > 0 ? <th key={idx}>{count}</th> : null) }
+                        </tr>
                     </tbody>
                 </table>
         </div>
