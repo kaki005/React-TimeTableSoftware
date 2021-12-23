@@ -60,6 +60,3 @@ export enum ECategory {
     "その他",
 }
 
-interface ITranslator {
-    [id: string]: string;
-}

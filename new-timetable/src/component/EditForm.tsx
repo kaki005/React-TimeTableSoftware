@@ -1,14 +1,9 @@
-import { parse } from "querystring";
-import React, {useState, useContext, useRef } from "react";
+import React, {useContext} from "react";
 import { ECategory } from "../model/Subject";
-import Subject from "../model/Subject";
 import SubjectManager from "../model/SubjectsManager";
-import { formContext } from "../App";
-import SaveSubjects from "../model/JsonManager";
-import userEvent from "@testing-library/user-event";
+import { formContext, manager } from "../App";
 
 
-const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 const headers = ["月", "火", "水", "木", "金"];
 export const colorList: {[name:string] : string} = {
     "黄色" : "#FFFF66",
@@ -24,9 +19,12 @@ export const toNameList: {[name:string] : string} = {};
 Object.keys(colorList).forEach(name => { 
         toNameList[colorList[name]] = name;
   });
-const manager = SubjectManager.Instance;
+interface IProp {
+    semester : number
+}
 
-const EditForm :React.FC = () =>{
+
+const EditForm :React.FC<IProp> = (prop :IProp) =>{
     const {selectedSubject, setSubject, TimeTable, setTimeTable} = useContext(formContext);
     // 値をリセット
     const Clear = () => {
@@ -36,7 +34,7 @@ const EditForm :React.FC = () =>{
             isRegistered: false,
             tempName: "",
             tempDegree : 2,
-            tempCategory : ECategory.None,
+            tempCategory : ECategory.A,
         });
     }
     /*const Cancel = () =>{
@@ -49,13 +47,13 @@ const EditForm :React.FC = () =>{
         });
     }*/
 
+    // 科目の削除
     const DeleteSubject = () => {
-        if(TimeTable[selectedSubject.id].Time.length > 1) {
-            TimeTable[selectedSubject.id].ReduceTime(selectedSubject.id);
-        }
-        TimeTable[selectedSubject.id] = defaultSub;
-        setTimeTable(TimeTable);
+        manager.DeleteSubject( prop.semester, selectedSubject.id);
+        setTimeTable(manager.GetTimeTable(prop.semester));
     };
+
+    // 値の変化時
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
         const name :string = e.target.name;
         setSubject({
@@ -64,22 +62,11 @@ const EditForm :React.FC = () =>{
         });
     }
 
+    // 科目情報の変更
     const onSubmit = (e: React.FormEvent) =>{
         e.preventDefault();
-        if(TimeTable[selectedSubject.id].Time.length> 1) {
-            let ans = window.confirm("同じ授業の他の時間のデータも変更しますか？");
-            if(ans === true) {
-                TimeTable[selectedSubject.id].ChangeData(selectedSubject.tempName, colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
-            }
-            else {
-                TimeTable[selectedSubject.id].ReduceTime(selectedSubject.id);
-                TimeTable[selectedSubject.id] = new Subject(selectedSubject.tempName,  [selectedSubject.id] ,colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
-            }
-        }
-        else {
-            TimeTable[selectedSubject.id].ChangeData(selectedSubject.tempName, colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
-        }
-        setTimeTable([...TimeTable]);
+        manager.ChangeSubject(prop.semester, selectedSubject.id, selectedSubject.tempName, selectedSubject.tempColor, selectedSubject.tempDegree, selectedSubject.tempCategory);
+        setTimeTable(manager.GetTimeTable(prop.semester));
         setSubject({
             ...selectedSubject,
             canEdit : false,
@@ -88,8 +75,8 @@ const EditForm :React.FC = () =>{
     }
 
     const RegisterSubject =() =>{
-        TimeTable[selectedSubject.id] = new Subject(selectedSubject.tempName, [selectedSubject.id], colorList[selectedSubject.tempColor], selectedSubject.tempDegree, selectedSubject.tempCategory);
-        setTimeTable(TimeTable);
+        manager.RegisterSubject(prop.semester, selectedSubject.id, selectedSubject.tempName, selectedSubject.tempColor, selectedSubject.tempDegree, selectedSubject.tempCategory, true);
+        setTimeTable(manager.GetTimeTable(prop.semester));
         setSubject({
             ...selectedSubject,
             canEdit : false,
@@ -97,12 +84,8 @@ const EditForm :React.FC = () =>{
     }
 
     const RegisterExistingSubject = () =>{
-        const sub : (Subject | undefined) = TimeTable.find(x => x != undefined && x.SubjectName === selectedSubject.tempName);
-        sub?.AddTime(selectedSubject.id);
-        if(sub != undefined){
-            TimeTable[selectedSubject.id] = sub;
-        }
-        setTimeTable(TimeTable);
+        manager.RegisterSubject(prop.semester, selectedSubject.id, selectedSubject.tempName, selectedSubject.tempColor, selectedSubject.tempDegree, selectedSubject.tempCategory, false);
+        setTimeTable(manager.GetTimeTable(prop.semester));
         setSubject({
             ...selectedSubject,
             canEdit : false,
@@ -115,11 +98,6 @@ const EditForm :React.FC = () =>{
             canEdit : true
         })
     }
-
-    const handleBeforeUnload = (e :any) =>{
-        SaveSubjects(TimeTable);
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload);
 
 
     return <div className="Form">
@@ -135,7 +113,7 @@ const EditForm :React.FC = () =>{
             {selectedSubject.selectOption === "existing" && selectedSubject.isRegistered === false
             ?
                 <select name="tempName" onChange={onChanged} value={selectedSubject.tempName}>
-                    {manager.GetSubjectList().map(key => <option>{key.SubjectName}</option>)}
+                    {manager.GetSubjectList(prop.semester).map(key => key.SubjectName !== ""  ? <option>{key.SubjectName}</option> : null)}
                 </select>
             :
             <table className="FormTable">

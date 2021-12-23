@@ -1,17 +1,16 @@
-import { count } from "console";
 import React from "react";
 import Subject, { ECategory, } from "../model/Subject";
 import SubjectsManager from "../model/SubjectsManager";
+import {manager} from "../App";
 
 interface IProps {
-    subject : Subject[]
+    subject : Subject[],
+    semester : number
 };
 
-
 const Counter : React.VFC<IProps>  = (props :IProps) =>{
-    const manager = new SubjectsManager();
-    const counts = manager.CountDegree(props.subject);
     const [displayType, SetType] = React.useState("all");
+    let counts = manager.CountDegree(props.semester, displayType);
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
         SetType(e.target.name);
     };

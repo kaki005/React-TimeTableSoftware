@@ -1,29 +1,33 @@
 
-import React, {useState, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import Subject, { ECategory } from "../model/Subject";
 import TableCell from "./TimeTableCell";
-import { formContext } from "../App";
+import { formContext, manager, semesterTabContext } from "../App";
 import { MouseEvent } from "react";
 import SubjectManager from "../model/SubjectsManager";
 import EditForm, {colorList, toNameList} from "./EditForm";
-import Counter from "./Counter";
 
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
-const headers = ["","月", "火", "水", "木", "金"];
 const times = [1, 2, 3, 4, 5];
-const manager = SubjectManager.Instance;
 
 interface IProp {
+    semester : number
 }
 
 const TimeTables: React.VFC<IProp> = (prop :IProp) => {
+    const headers = [prop.semester + "セメ","月", "火", "水", "木", "金"];
     const {selectedSubject, setSubject, TimeTable, setTimeTable} = useContext(formContext);
+    const {Semester, setSemester} = useContext(semesterTabContext);
+    useEffect(
+        () =>setTimeTable(manager.GetTimeTable(prop.semester)),
+        [Semester, setSemester]
+    );
     // 選択されたコマのデータをフォームに登録
     const setDataForm = (e :MouseEvent<HTMLElement>) =>{
         let idstr = e.currentTarget.dataset.id as string;
         let id = parseInt(idstr, 10);
         // eslint-disable-next-line
-        if(TimeTable[id] != undefined) {
+        if(TimeTable[id] != undefined && TimeTable[id].SubjectName !== "") {
             setSubject({
                 id: id,
                 isRegistered: true,
@@ -31,7 +35,6 @@ const TimeTables: React.VFC<IProp> = (prop :IProp) => {
                 tempName : TimeTable[id].SubjectName,
                 tempDegree  : TimeTable[id].Degree,
                 tempCategory: TimeTable[id].Category,
-                //subject : TimeTable[id].Clone(),
                 selectOption : "new",
                 canEdit : false,
             });
@@ -44,7 +47,6 @@ const TimeTables: React.VFC<IProp> = (prop :IProp) => {
                 tempName : defaultSub.SubjectName,
                 tempDegree  : defaultSub.Degree,
                 tempCategory: defaultSub.Category,
-                //subject: defaultSub,
                 selectOption : "new",
                 canEdit : true,
             });
@@ -66,7 +68,7 @@ const TimeTables: React.VFC<IProp> = (prop :IProp) => {
                 return<tr key={idx1}>
                     <th key={0}>{time}</th>
                     {headers.map((data, idx2) => {
-                        if(idx2 === headers.length-1 ) return null; 
+                        if(idx2 === headers.length-1 ) return null;
                         return <th  data-id={idx1*10+idx2} onClick={setDataForm} key={idx2+1}>
                             <TableCell subject={TimeTable[idx1*10+idx2]} />
                         </th>

@@ -3,7 +3,7 @@ import Subject from "../model/Subject";
 
 
 interface IProps {
-    subject : Subject | null
+    subject : Subject | null | undefined
 };
 
 
