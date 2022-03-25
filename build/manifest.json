@@ -1,6 +1,7 @@
 {
   "short_name": "React App",
   "name": "Create React App Sample",
+  "homepage": "https://dev-yakuza-org.github.io/todo",
   "icons": [
     {
       "src": "favicon.ico",
