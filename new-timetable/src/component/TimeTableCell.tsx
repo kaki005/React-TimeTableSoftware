@@ -7,7 +7,7 @@ interface IProps {
 };
 
 
-const TableCell: React.VFC<IProps>= (props)=> {
+const TableCell: React.VFC<IProps>= (props : IProps)=> {
     const style = {
         background: props.subject === undefined ?"white" : props.subject?.Color,
         height :150

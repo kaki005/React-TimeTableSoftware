@@ -9,13 +9,14 @@ import EditForm, {colorList, toNameList} from "./EditForm";
 
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 const times = [1, 2, 3, 4, 5];
+const headers = ["","月", "火", "水", "木", "金"];
+
 
 interface IProp {
     semester : number
 }
 
 const TimeTables: React.VFC<IProp> = (prop :IProp) => {
-    const headers = [prop.semester + "セメ","月", "火", "水", "木", "金"];
     const {selectedSubject, setSubject, TimeTable, setTimeTable} = useContext(formContext);
     const {Semester, setSemester} = useContext(semesterTabContext);
     useEffect(

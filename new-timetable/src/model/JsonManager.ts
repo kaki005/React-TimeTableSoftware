@@ -38,7 +38,7 @@ export function GetSubjects() : Subject[][] {
 
     var subjects :Array<Array<Subject>> = new Array(SEMESTER_NUM);
     for (let i=0; i< subjects.length; i++) {
-        subjects[i] = new Array<Subject>().fill(defaultSub);
+        subjects[i] = new Array<Subject>();
     }
     var json:string = localStorage.getItem(STORAGE_NAME) ?? "";
     var subjectList :parseSubject[][] = JSON.parse(json) as parseSubject[][];
