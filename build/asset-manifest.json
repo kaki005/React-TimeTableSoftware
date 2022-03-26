@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/React-TimeTableSoftware/static/css/main.0c5446e8.chunk.css",
-    "main.js": "/React-TimeTableSoftware/static/js/main.b765631a.chunk.js",
-    "main.js.map": "/React-TimeTableSoftware/static/js/main.b765631a.chunk.js.map",
+    "main.js": "/React-TimeTableSoftware/static/js/main.db8ed596.chunk.js",
+    "main.js.map": "/React-TimeTableSoftware/static/js/main.db8ed596.chunk.js.map",
     "runtime-main.js": "/React-TimeTableSoftware/static/js/runtime-main.610cafd2.js",
     "runtime-main.js.map": "/React-TimeTableSoftware/static/js/runtime-main.610cafd2.js.map",
     "static/js/2.36922759.chunk.js": "/React-TimeTableSoftware/static/js/2.36922759.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.610cafd2.js",
     "static/js/2.36922759.chunk.js",
     "static/css/main.0c5446e8.chunk.css",
-    "static/js/main.b765631a.chunk.js"
+    "static/js/main.db8ed596.chunk.js"
   ]
 }
