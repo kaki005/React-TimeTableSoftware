@@ -41,15 +41,20 @@ code {
 .FormContainer {
   vertical-align: top;
   display: inline-block;
-  width: 40%;
+  text-align: left;
+  width: 46%;
 }
 .Form {
-  display: block;
+  display: inline-block;
+  background-color: white;
+  text-align: left;
+  padding : 20px;
 }
 
 table {
   margin-left: auto;
   margin-right: auto;
+  background-color: white;
 }
 
 
@@ -70,7 +75,7 @@ table {
 .tabs {
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 80%;
+  width: 98%;
   margin-top: 100px;
   align-content: left;
 }
@@ -120,4 +125,14 @@ table {
     text-align: center;
     font-weight: bold;
     transition: all 0.2s ease;
+  }
+
+  .TitleContainer {
+    width: 80%;
+    padding: 20px;
+    padding-top: 3px;
+    background-color: white;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    text-align: left;
   }

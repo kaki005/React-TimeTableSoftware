@@ -6,6 +6,7 @@ import TimeTables from './component/TimeTable';
 import EditForm from "./component/EditForm";
 import Counter from "./component/Counter";
 import { SemesterTab } from './component/semsterTab';
+import {Title} from "./component/Title";
 
 
 interface IFormInfo {
@@ -61,6 +62,7 @@ function App() {
 
   return (
     <div className="App">
+      <Title />
       <formContext.Provider value={formValue}>
       <semesterTabContext.Provider value={{Semester, setSemester}} >
 

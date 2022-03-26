@@ -8,8 +8,8 @@ import SubjectManager from "../model/SubjectsManager";
 import EditForm, {colorList, toNameList} from "./EditForm";
 
 const defaultSub : Subject = new  Subject("", [], "", 2, ECategory.None);
-const times = [1, 2, 3, 4, 5];
-const headers = ["","月", "火", "水", "木", "金"];
+const times = [1, 2, 3, 4, 5, 6];
+const headers = ["","月", "火", "水", "木", "金", "土", "日"];
 
 
 interface IProp {

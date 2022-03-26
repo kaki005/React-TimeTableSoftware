@@ -3,7 +3,7 @@ import { ECategory } from "../model/Subject";
 import { formContext, manager } from "../App";
 
 
-const headers = ["月", "火", "水", "木", "金"];
+const headers = ["月", "火", "水", "木", "金", "土", "日"];
 export const colorList: {[name:string] : string} = {
     "黄色" : "#FFFF66",
     "水色" : "#99FFFF",
