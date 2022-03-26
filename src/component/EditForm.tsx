@@ -141,6 +141,7 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
                         <select  value={selectedSubject.tempDegree} name="tempDegree" onChange={onChanged}>
                             <option>1</option>
                             <option>2</option>
+                            <option>3</option>
                             <option>4</option>
                         </select>
                     </th>

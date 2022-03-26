@@ -1,3 +1,4 @@
+import { debug } from "console";
 import { stringify } from "querystring";
 import Subject, { ECategory } from "./Subject";
 type parseSubject = {
@@ -35,7 +36,6 @@ export default function SaveSubjects (tableList: Subject[][]) {
 export function GetSubjects() : Subject[][] {
     const CELL_MAX = 10* (5 + 1);
     const SEMESTER_NUM = 8
-
     var subjects :Array<Array<Subject>> = new Array(SEMESTER_NUM);
     for (let i=0; i< subjects.length; i++) {
         subjects[i] = new Array<Subject>();
