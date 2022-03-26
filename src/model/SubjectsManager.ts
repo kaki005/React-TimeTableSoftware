@@ -14,7 +14,7 @@ class SubjectManager {
 
     // カテゴリー
     get Categories() {
-        return this.categories.filter((key:any) => (typeof(ECategory[key]) === "number" && key !== "None"));
+        return this.categories.filter((key:any) => (typeof(ECategory[key]) === "number"));
     }
     private categories = Object.keys(ECategory);
 
@@ -59,7 +59,7 @@ class SubjectManager {
                 subject.Time.forEach(time => {isRegistered[time] = true});
                 var str :string = ECategory[subject.Category];
                 list[parseInt(str)] += subject.Degree;
-                list[list.length-1] += subject.Degree;
+                if(parseInt(str) <= ECategory.専門その他) list[list.length-1] += subject.Degree;   // 専門科目なら合計に加える
             }
         });
         return list;
@@ -67,7 +67,7 @@ class SubjectManager {
 
     // 時間割の取得
     GetTimeTable(semester :number) :Subject[]  {
-        return this.timeTable[semester-1];
+        return this.timeTable[semester-1].slice(0, this.timeTable[semester-1].length);
     }
 
     // 科目の削除

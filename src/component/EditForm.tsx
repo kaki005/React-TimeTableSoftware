@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import { ECategory } from "../model/Subject";
-import SubjectManager from "../model/SubjectsManager";
 import { formContext, manager } from "../App";
 
 
@@ -9,11 +8,13 @@ export const colorList: {[name:string] : string} = {
     "黄色" : "#FFFF66",
     "水色" : "#99FFFF",
     "ピンク": "#FFAAFF",
-    "緑"  : "#93FFAB",
-    "青" : "#75A9FF",
+    "緑色"  : "#93FFAB",
+    "青色" : "#75A9FF",
     "灰色" : "#BBBBBB",
-    "赤": "#FF5190",
-    "白": "white",
+    "赤色": "#FF5190",
+    "オレンジ" : "#FFCC66",
+    "紫色" : "#DCC2FF",
+    "黄緑色" : "#CCFF00",
   };
 export const toNameList: {[name:string] : string} = {};
 Object.keys(colorList).forEach(name => { 
@@ -26,6 +27,7 @@ interface IProp {
 
 const EditForm :React.FC<IProp> = (prop :IProp) =>{
     const {selectedSubject, setSubject, TimeTable, setTimeTable} = useContext(formContext);
+
     // 値をリセット
     const Clear = () => {
         setSubject({
@@ -34,18 +36,10 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
             isRegistered: false,
             tempName: "",
             tempDegree : 2,
-            tempCategory : ECategory.A,
+            tempColor : "",
+            tempCategory : ECategory.None,
         });
     }
-    /*const Cancel = () =>{
-        setSubject({
-            ...selectedSubject,
-            tempName: selectedSubject.subject.SubjectName,
-            tempDegree: selectedSubject.subject.Degree,
-            tempColor: selectedSubject.subject.Color,
-            tempCategory: selectedSubject.subject.Category,
-        });
-    }*/
 
     // 科目の削除
     const DeleteSubject = () => {
@@ -56,9 +50,13 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
     // 値の変化時
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
         const name :string = e.target.name;
+        let value = e.target.value;
+        if(name == "tempCategory" && e.target.value === "") {
+            value = "None";
+        }
         setSubject({
             ...selectedSubject,
-           [name] : e.target.value
+           [name] : value
         });
     }
 
@@ -67,36 +65,48 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
         e.preventDefault();
         manager.ChangeSubject(prop.semester, selectedSubject.id, selectedSubject.tempName, selectedSubject.tempColor, selectedSubject.tempDegree, selectedSubject.tempCategory);
         setTimeTable(manager.GetTimeTable(prop.semester));
-        setSubject({
-            ...selectedSubject,
-            canEdit : false,
-        });
         
     }
 
+    const IsProperInput = ()  :boolean => {
+        if(selectedSubject.tempName == null || selectedSubject.tempName === "") {
+            alert("科目名を入力してください。");
+            return false;
+        }
+        if(TimeTable.some(item => item != undefined && item != null && item.SubjectName === selectedSubject.tempName)) {
+            alert("その科目名は既に登録されています。\n既存の項目から登録してください。");
+            return false;
+        }
+        if(selectedSubject.tempColor == null || selectedSubject.tempColor === "") {
+            alert("科目の色を選択してください。");
+            return false;
+        }
+        if(selectedSubject.tempDegree == null || selectedSubject.tempDegree <= 0) {
+            alert("単位数を選択してください");
+            return false;
+        }
+        if(selectedSubject.tempCategory == null || selectedSubject.tempCategory == ECategory.None) {
+            alert("カテゴリを選択してください");
+            return false;
+        }
+        return true;
+    }
+
     const RegisterSubject =() =>{
+        if(!IsProperInput()) {
+            return;
+        }
         manager.RegisterSubject(prop.semester, selectedSubject.id, selectedSubject.tempName, selectedSubject.tempColor, selectedSubject.tempDegree, selectedSubject.tempCategory, true);
         setTimeTable(manager.GetTimeTable(prop.semester));
-        setSubject({
-            ...selectedSubject,
-            canEdit : false,
-        });
     }
 
     const RegisterExistingSubject = () =>{
+        if(selectedSubject.tempName == null || selectedSubject.tempName === "") {
+            alert("登録する科目が選択されていません");
+            return ;
+        }
         manager.RegisterSubject(prop.semester, selectedSubject.id, selectedSubject.tempName, selectedSubject.tempColor, selectedSubject.tempDegree, selectedSubject.tempCategory, false);
         setTimeTable(manager.GetTimeTable(prop.semester));
-        setSubject({
-            ...selectedSubject,
-            canEdit : false,
-        });
-    }
-
-    const StartEdit = () => {
-        setSubject({
-            ...selectedSubject,
-            canEdit : true
-        })
     }
 
 
@@ -113,6 +123,7 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
             {selectedSubject.selectOption === "existing" && selectedSubject.isRegistered === false
             ?
                 <select name="tempName" onChange={onChanged} value={selectedSubject.tempName}>
+                    <option></option>
                     {manager.GetSubjectList(prop.semester).map(key => key.SubjectName !== ""  ? <option>{key.SubjectName}</option> : null)}
                 </select>
             :
@@ -130,6 +141,7 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
                         <select  value={selectedSubject.tempDegree} name="tempDegree" onChange={onChanged}>
                             <option>1</option>
                             <option>2</option>
+                            <option>4</option>
                         </select>
                     </th>
                 </tr>
@@ -137,6 +149,7 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
                     <th key={0}>色</th>
                     <th key={1}>
                         <select value={selectedSubject.tempColor} name="tempColor" onChange={onChanged}>
+                            <option></option>
                             {Object.keys(colorList).map(key => <option key={key}>{key}</option>)}
                         </select>
                     </th>
@@ -145,7 +158,7 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
                     <th key={0}>区分</th>
                     <th key={1}>
                         <select value={selectedSubject.tempCategory} name="tempCategory" onChange={onChanged}>
-                            {manager.Categories.map((value, idx) => value !=="" ? <option key={idx+1}>{value}</option> : null)}
+                            {manager.Categories.map((value, idx) => value !=="" ? <option key={idx+1}>{value !== "None" ? value : null}</option> : null)}
                         </select>
                     </th>
                 </tr>
@@ -155,12 +168,11 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
         </form>
     
             {selectedSubject.isRegistered ?
-                selectedSubject.canEdit? (<div>
+                (<div>
                     <button onClick={onSubmit}>変更を保存</button>
                     <button onClick={DeleteSubject}>削除</button>
                     <button onClick={Clear}>クリア</button>
                 </div>)
-                : <button onClick={StartEdit}>編集</button>
             : selectedSubject.selectOption === "new"
                 ?(<div>
                     <button onClick={RegisterSubject}>新規登録</button>

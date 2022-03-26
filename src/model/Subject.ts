@@ -53,7 +53,7 @@ export enum ECategory {
     E,
     F,
     G,
-    H,
+    "専門その他",
     "英語",
     "基盤教養",
     "専門基礎",

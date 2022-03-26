@@ -97,6 +97,9 @@ table {
   .tab_content {
     clear: both;
     overflow: hidden;
+    padding: 5px;
+    padding-top: 0px;
+    background-color: var(--counter-color,#5ab4bd);
   }
 
   .tabs input:checked + .tab_item {

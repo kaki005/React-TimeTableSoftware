@@ -40,9 +40,9 @@ export function GetSubjects() : Subject[][] {
     for (let i=0; i< subjects.length; i++) {
         subjects[i] = new Array<Subject>();
     }
-    var json:string = localStorage.getItem(STORAGE_NAME) ?? "";
+    var json:string = localStorage.getItem(STORAGE_NAME) ?? "null";
     var subjectList :parseSubject[][] = JSON.parse(json) as parseSubject[][];
-    subjectList.forEach((list, idx) => {
+    subjectList?.forEach((list, idx) => {
         var registerdList : boolean[] = new Array(CELL_MAX);
         registerdList = registerdList.map(item => false);
         if(list.length > 0) {

@@ -7,7 +7,7 @@ import { MouseEvent } from "react";
 import SubjectManager from "../model/SubjectsManager";
 import EditForm, {colorList, toNameList} from "./EditForm";
 
-const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
+const defaultSub : Subject = new  Subject("", [], "", 2, ECategory.None);
 const times = [1, 2, 3, 4, 5];
 const headers = ["","月", "火", "水", "木", "金"];
 
@@ -20,7 +20,7 @@ const TimeTables: React.VFC<IProp> = (prop :IProp) => {
     const {selectedSubject, setSubject, TimeTable, setTimeTable} = useContext(formContext);
     const {Semester, setSemester} = useContext(semesterTabContext);
     useEffect(
-        () =>setTimeTable(manager.GetTimeTable(prop.semester)),
+        () => setTimeTable(manager.GetTimeTable(prop.semester)),
         [Semester, setSemester]
     );
     // 選択されたコマのデータをフォームに登録
@@ -44,7 +44,7 @@ const TimeTables: React.VFC<IProp> = (prop :IProp) => {
             setSubject({
                 id: id,
                 isRegistered: false,
-                tempColor : colorList[defaultSub.Color],
+                tempColor : "",
                 tempName : defaultSub.SubjectName,
                 tempDegree  : defaultSub.Degree,
                 tempCategory: defaultSub.Category,

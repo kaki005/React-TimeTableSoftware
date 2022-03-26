@@ -33,14 +33,14 @@ const Counter : React.VFC<IProps>  = (props :IProps) =>{
             <input className="tab" id="semester" type="radio" name="semester" checked={displayType === "semester"} onChange={onChanged}/>
                 <label htmlFor="semester" className="tab_item" >今学期</label> 
             <input className="tab"  id="gotten" type="radio" name="gotten" checked={displayType === "gotten"} onChange={onChanged}/>
-                <label htmlFor="gotten" className="tab_item" >取得済み</label> 
+                <label htmlFor="gotten" className="tab_item" >前学期まで</label> 
         </div>
 
         <div className="tab_content">
                 <table className="DegreeCounter">
                     <thead>
                         <tr>
-                            {counts.map((count, idx) => idx > 0 ? <th key={idx}>{idx !== counts.length-1 ? ECategory[idx] : "合計"}</th> : null)}
+                            {counts.map((count, idx) => idx > 0 ? <th key={idx}>{idx !== counts.length-1 ? ECategory[idx] : "専門合計"}</th> : null)}
                         </tr>
                     </thead>
                     <tbody>

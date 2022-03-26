@@ -14,7 +14,7 @@ interface IFormInfo {
   tempColor: string;
   tempName: string;
   tempDegree: number;
-  tempCategory: ECategory;
+  tempCategory: ECategory ;
   selectOption: string;
   canEdit : boolean;
 }
@@ -40,16 +40,16 @@ window.addEventListener('beforeunload', handleBeforeUnload);
 function App() {
   const [Semester, setSemester] = useState(1);
   const [TimeTable, setTimeTable] = useState(manager.GetTimeTable(Semester));
-  let registered = TimeTable.length > 0 && TimeTable[0].SubjectName !== "";
+  let registered = TimeTable.length > 0 && TimeTable[0] != null  && TimeTable[0].SubjectName !== "";
   const [selectedSubject, setSubject] = useState({
         id : 0,
         isRegistered: registered,
-        tempColor: "赤",
+        tempColor: "",
         tempName: "",
         tempDegree : 2,
-        tempCategory : ECategory.A,
+        tempCategory : ECategory.None,
         selectOption: "new",
-        canEdit : false,
+        canEdit : true,
     });
     const formValue = {
         selectedSubject,
