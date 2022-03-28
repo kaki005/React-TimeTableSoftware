@@ -2,7 +2,6 @@ import Subject, { ECategory } from './Subject';
 import { GetSubjects } from './JsonManager';
 import SaveSubjects from './JsonManager';
 import { colorList } from '../component/EditForm';
-import { Console, debug, time } from 'console';
 
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 const MAX_SEMESTER = 8;
