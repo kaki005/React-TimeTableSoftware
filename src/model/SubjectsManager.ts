@@ -2,7 +2,7 @@ import Subject, { ECategory } from './Subject';
 import { GetSubjects } from './JsonManager';
 import SaveSubjects from './JsonManager';
 import { colorList } from '../component/EditForm';
-import { time } from 'console';
+import { Console, debug, time } from 'console';
 
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 const MAX_SEMESTER = 8;
@@ -32,7 +32,7 @@ class SubjectManager {
 
     // 単位数を計算
     CountDegree(semester:number, countType:string) : number[] {
-        var list : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var list : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         switch(countType) {     
             case "all":
                 for(let i = 1; i <= MAX_SEMESTER; i++) {
@@ -58,8 +58,8 @@ class SubjectManager {
             if(subject != null && subject != undefined && !isRegistered[id] && subject.SubjectName !== "" ) {
                 subject.Time.forEach(time => {isRegistered[time] = true});
                 var str :string = ECategory[subject.Category];
-                list[parseInt(str)] += subject.Degree;
-                if(parseInt(str) <= ECategory.専門その他) list[list.length-1] += subject.Degree;   // 専門科目なら合計に加える
+                list[parseInt(str)] += Number(subject.Degree);
+                if(parseInt(str) <= ECategory.専門その他) { list[list.length-1] = Number(list[list.length-1]) + Number(subject.Degree); }   // 専門科目なら合計に加える
             }
         });
         return list;

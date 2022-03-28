@@ -4,8 +4,7 @@ import Subject, { ECategory } from "../model/Subject";
 import TableCell from "./TimeTableCell";
 import { formContext, manager, semesterTabContext } from "../App";
 import { MouseEvent } from "react";
-import SubjectManager from "../model/SubjectsManager";
-import EditForm, {colorList, toNameList} from "./EditForm";
+import {toNameList} from "./EditForm";
 
 const defaultSub : Subject = new  Subject("", [], "", 2, ECategory.None);
 const times = [1, 2, 3, 4, 5, 6];

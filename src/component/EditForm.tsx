@@ -143,6 +143,7 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
+                            <option>10</option>
                         </select>
                     </th>
                 </tr>

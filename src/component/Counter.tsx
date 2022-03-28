@@ -1,6 +1,5 @@
 import React from "react";
 import Subject, { ECategory, } from "../model/Subject";
-import SubjectsManager from "../model/SubjectsManager";
 import {manager} from "../App";
 
 interface IProps {

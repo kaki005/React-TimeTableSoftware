@@ -1,5 +1,3 @@
-import { debug } from "console";
-import { stringify } from "querystring";
 import Subject, { ECategory } from "./Subject";
 type parseSubject = {
         time : number[],
@@ -9,7 +7,6 @@ type parseSubject = {
         category : ECategory
 }
 const STORAGE_NAME = "subjects";
-const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 
 export default function SaveSubjects (tableList: Subject[][]) {
     // eslint-disable-next-line
