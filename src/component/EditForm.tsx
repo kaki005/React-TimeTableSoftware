@@ -117,74 +117,71 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
         <form>
             {selectedSubject.isRegistered
                 ? null
-                : (<div>
-                    <input  type="radio" name="selectOption" value="new" onChange={onChanged} checked={selectedSubject.selectOption === "new"}/>新しく科目を作成して登録<br />
-                    <input  type="radio" value="existing" name="selectOption" onChange={onChanged} checked={selectedSubject.selectOption === "existing"} />既存の科目を登録
+                : (
+                <div>
+                   <div className="form-check form-check-inline">
+                        <input className="form-check" type="radio" name="selectOption" value="new" onChange={onChanged} checked={selectedSubject.selectOption === "new"} id="new" />
+                        <label htmlFor="new">新しく科目を作成して登録</label>
+                    </div>
+                    <div className="form-check form-check-inline">
+                        <input className="form-check" type="radio" value="existing" name="selectOption" onChange={onChanged} checked={selectedSubject.selectOption === "existing"} id="existing"/>
+                        <label htmlFor="new">既存の科目を登録</label >
+                    </div>
                 </div>)
             }
             {selectedSubject.selectOption === "existing" && selectedSubject.isRegistered === false
             ?
-                <select name="tempName" onChange={onChanged} value={selectedSubject.tempName}>
+                <select className="form-control" name="tempName" onChange={onChanged} value={selectedSubject.tempName}>
                     <option></option>
                     {manager.GetSubjectList(prop.semester).map(key => key.SubjectName !== ""  ? <option>{key.SubjectName}</option> : null)}
                 </select>
             :
-            <table className="FormTable">
-                <thead>
-                    <tr>
-                        <th key={0}>教科名</th>
-                        <th key={1}><input type="text"  key="inputName" value={selectedSubject.tempName} name="tempName" onChange={onChanged}/></th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th key={0}>単位</th>
-                    <th key={1}>
-                        <select  value={selectedSubject.tempDegree} name="tempDegree" onChange={onChanged}>
+                (<div>
+                    <div className="form-group">
+                        <label htmlFor="name">教科名</label>
+                        <input id="name" type="text" className="form-control" key="inputName" value={selectedSubject.tempName} name="tempName" onChange={onChanged}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="degree">単位</label>
+                        <select id="degree" className="form-control" value={selectedSubject.tempDegree} name="tempDegree" onChange={onChanged}>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
                             <option>10</option>
                         </select>
-                    </th>
-                </tr>
-                <tr>
-                    <th key={0}>色</th>
-                    <th key={1}>
-                        <select value={selectedSubject.tempColor} name="tempColor" onChange={onChanged}>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="color">色</label>
+                        <select id="color" className="form-control" value={selectedSubject.tempColor} name="tempColor" onChange={onChanged}>
                             <option></option>
                             {Object.keys(colorList).map(key => <option key={key}>{key}</option>)}
                         </select>
-                    </th>
-                </tr>
-                <tr>
-                    <th key={0}>区分</th>
-                    <th key={1}>
-                        <select value={selectedSubject.tempCategory} name="tempCategory" onChange={onChanged}>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="category">区分</label>
+                        <select id="category" className="form-control" value={selectedSubject.tempCategory} name="tempCategory" onChange={onChanged} >
                             {manager.Categories.map((value, idx) => value !=="" ? <option key={idx+1}>{value !== "None" ? value : null}</option> : null)}
                         </select>
-                    </th>
-                </tr>
-                </tbody>
-            </table>
-            }
+                   </div>
+                </div>)
+               }
         </form>
     
             {selectedSubject.isRegistered ?
                 (<div>
-                    <button onClick={onSubmit}>変更を保存</button>
-                    <button onClick={DeleteSubject}>削除</button>
-                    <button onClick={Clear}>クリア</button>
+                <button onClick={onSubmit} className="btn btn-primary">保存</button>
+                <button onClick={DeleteSubject} className="btn btn-danger">削除</button>
+                <button onClick={Clear} className="btn btn-primary">クリア</button>
                 </div>)
             : selectedSubject.selectOption === "new"
                 ?(<div>
-                    <button onClick={RegisterSubject}>新規登録</button>
-                    <button onClick={Clear}>クリア</button>
+                    <button onClick={RegisterSubject} className="btn btn-primary">登録</button>
+                    <button onClick={Clear} className="btn btn-primary">クリア</button>
                 </div>)
                 :(
                     <div>
-                        <button onClick={RegisterExistingSubject}>科目を登録</button>
+                        <button onClick={RegisterExistingSubject} className="btn btn-primary">科目を登録</button>
                     </div>
                 )
             

@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-bottom : 50px;
 }
 
 code {
@@ -23,9 +24,14 @@ code {
     text-align: center;
 }
 
+.TimeTable thead {
+    font-size : 20px;
+}
+
 
 .Cell {
   height: 180;
+  padding-top : 10px;
 }
 
 .Container {
@@ -45,10 +51,12 @@ code {
   width: 46%;
 }
 .Form {
-  display: inline-block;
-  background-color: white;
-  text-align: left;
-  padding : 20px;
+    display: inline-block;
+    background-color: white;
+    text-align: left;
+    width: 600px;
+    padding: 20px;
+    font-size: 20px;
 }
 
 table {
@@ -58,26 +66,12 @@ table {
 }
 
 
-.DegreeCounter {
-  padding-top: 3px;
-  height: 100px;
-  width: 100%;
-  background-color: var(--counter-color,#5ab4bd);
-}
-.DegreeCounter th,
-.DegreeCounter td {
-  border: 1px solid white;
-  text-align: center;
-  width: 400px;
-  background-color: white;
-}
-
 .tabs {
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 98%;
-  margin-top: 100px;
-  align-content: left;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 950px;
+    margin-top: 100px;
+    align-content: left;
+    background-color: var(--counter-color,#5ab4bd);
 }
 
   .tab_item {
@@ -89,6 +83,7 @@ table {
     text-align: center;
     color: #565656;
     display: block;
+    font-size : 20px;
     float: left;
     text-align: center;
     font-weight: bold;
@@ -112,7 +107,7 @@ table {
   color:black;
   }
 
-  .semester_tab_item {
+.semester_tab_item {
     width: calc(100%/8);
     height: 40px;
     background-color: #d9d9d9;
@@ -125,7 +120,8 @@ table {
     text-align: center;
     font-weight: bold;
     transition: all 0.2s ease;
-  }
+    font-size: 20px;
+}
 
   .TitleContainer {
     width: 80%;
@@ -146,4 +142,32 @@ table {
 
 .IntensiveSubjects {
     margin-top : 30px;
+}
+
+
+.DegreeCounter {
+    padding-top: 3px;
+    width: 100%;
+    background-color: var(--counter-color,#5ab4bd);
+    align-content : center;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.CounterCell {
+    width: 100px;
+    margin: 2px;
+    height: 95px;
+    border: 1px solid white;
+    text-align: center;
+    background-color: white;
+    text-align: center;
+}
+
+.CounterCellHead {
+    padding-top : 10px;
+    padding-bottom: 15px;
+    text-align: center;
+    border-bottom: solid gray 1px;
 }

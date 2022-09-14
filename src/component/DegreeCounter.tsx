@@ -6,8 +6,12 @@ interface IProps {
     subject : Subject[],
     semester : number
 };
+interface ICellProps {
+    categoryName: string,
+    degree : number,
+};
 
-const Counter : React.VFC<IProps>  = (props :IProps) =>{
+const DegreeCounter : React.VFC<IProps>  = (props :IProps) =>{
     const [displayType, SetType] = React.useState("all");
     let counts = manager.CountDegree(props.semester, displayType);
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
@@ -36,19 +40,29 @@ const Counter : React.VFC<IProps>  = (props :IProps) =>{
         </div>
 
         <div className="tab_content">
-                <table className="DegreeCounter">
-                    <thead>
-                        <tr>
-                            {counts.map((count, idx) => idx > 0 ? <th key={idx}>{idx !== counts.length-1 ? ECategory[idx] : "専門合計"}</th> : null)}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            {counts.map((count, idx) => idx > 0 ? <th key={idx}>{count}</th> : null) }
-                        </tr>
-                    </tbody>
-                </table>
+            <div className="DegreeCounter">
+                {(() => {
+                    const items = [];
+                    for (let i = 1; i <= ECategory.専門その他; i++) {
+                        items.push(<CounterCell categoryName={ECategory[i]} degree={counts[i]} />);
+                    }
+                    items.push(<CounterCell categoryName={"専門合計"} degree={counts[counts.length - 1]} />);
+                    for (let i = ECategory.専門その他+1; i <= ECategory.その他; i++) {
+                        items.push(<CounterCell categoryName={ECategory[i]} degree={counts[i]} />);
+                    }
+                    return items;
+                })()}
+            </div>
         </div>
     </div>;
 }; 
-export default Counter;
+export default DegreeCounter;
+
+
+
+const CounterCell: React.VFC<ICellProps> = (props: ICellProps) => {
+    return <div className="CounterCell" >
+        <h6 className="CounterCellHead">{props.categoryName}</h6>
+        <h5>{props.degree}</h5>
+    </div>;
+};

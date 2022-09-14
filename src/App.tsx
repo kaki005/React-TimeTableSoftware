@@ -5,7 +5,7 @@ import SubjectManager from './model/SubjectsManager';
 import TimeTables from './component/TimeTable';
 import TimeTableIntensive from './component/TimeTableIntensive';
 import EditForm from "./component/EditForm";
-import Counter from "./component/Counter";
+import DegreeCounter from "./component/DegreeCounter";
 import { SemesterTab } from './component/semsterTab';
 import {Title} from "./component/Title";
 
@@ -75,7 +75,7 @@ function App() {
         <div className="FormContainer">
           <EditForm semester={Semester}/>
           <TimeTableIntensive semester={Semester}/>
-          <Counter subject={TimeTable} semester={Semester}/>
+          <DegreeCounter subject={TimeTable} semester={Semester}/>
         </div>
       </semesterTabContext.Provider>
       </formContext.Provider>
