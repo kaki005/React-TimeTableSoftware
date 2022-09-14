@@ -1,4 +1,5 @@
 //import react from "react";
+import { ECategory } from "./Subject";
 
 export default class Consts {
     static readonly SUBJECT_MAX_ID :number = 120;   // 時間割IDの最大数　(0-99:通常科目, 100-119:集中講義科目)
@@ -7,5 +8,7 @@ export default class Consts {
 
     static readonly DAYS = ["月", "火", "水", "木", "金", "土", "日"];
     static readonly TIMES = [1, 2, 3, 4, 5, 6];
+
+    static readonly CATEGORY_NUM :number = ECategory.その他 + 1;
 };
 

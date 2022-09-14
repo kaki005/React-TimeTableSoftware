@@ -133,7 +133,7 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
             ?
                 <select className="form-control" name="tempName" onChange={onChanged} value={selectedSubject.tempName}>
                     <option></option>
-                    {manager.GetSubjectList(prop.semester).map(key => key.SubjectName !== ""  ? <option>{key.SubjectName}</option> : null)}
+                    {manager.GetSubjectList(prop.semester).map(key => key.SubjectName !== "" ? <option>{key.SubjectName}</option> : null)}
                 </select>
             :
                 (<div>

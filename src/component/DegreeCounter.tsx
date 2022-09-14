@@ -1,19 +1,19 @@
 import React from "react";
 import Subject, { ECategory, } from "../model/Subject";
-import {manager} from "../App";
+import { manager } from "../App";
+import CounterCell from "./DegreeCounterCell";
+import "../DegreeCounter.css";
 
 interface IProps {
     subject : Subject[],
     semester : number
 };
-interface ICellProps {
-    categoryName: string,
-    degree : number,
-};
+
 
 const DegreeCounter : React.VFC<IProps>  = (props :IProps) =>{
     const [displayType, SetType] = React.useState("all");
-    let counts = manager.CountDegree(props.semester, displayType);
+    //let counts = manager.CountDegree(props.semester, displayType);
+    let subjects = manager.ClassifyByCategory(props.semester, displayType);
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
         SetType(e.target.name);
     };
@@ -44,11 +44,11 @@ const DegreeCounter : React.VFC<IProps>  = (props :IProps) =>{
                 {(() => {
                     const items = [];
                     for (let i = 1; i <= ECategory.専門その他; i++) {
-                        items.push(<CounterCell categoryName={ECategory[i]} degree={counts[i]} />);
+                        items.push(<CounterCell categoryName={ECategory[i]} subjects={subjects[i]} />);
                     }
-                    items.push(<CounterCell categoryName={"専門合計"} degree={counts[counts.length - 1]} />);
+                    items.push(<CounterCell categoryName={"専門合計"} subjects={subjects[subjects.length - 1]} />);
                     for (let i = ECategory.専門その他+1; i <= ECategory.その他; i++) {
-                        items.push(<CounterCell categoryName={ECategory[i]} degree={counts[i]} />);
+                        items.push(<CounterCell categoryName={ECategory[i]} subjects={subjects[i]} />);
                     }
                     return items;
                 })()}
@@ -57,12 +57,3 @@ const DegreeCounter : React.VFC<IProps>  = (props :IProps) =>{
     </div>;
 }; 
 export default DegreeCounter;
-
-
-
-const CounterCell: React.VFC<ICellProps> = (props: ICellProps) => {
-    return <div className="CounterCell" >
-        <h6 className="CounterCellHead">{props.categoryName}</h6>
-        <h5>{props.degree}</h5>
-    </div>;
-};
