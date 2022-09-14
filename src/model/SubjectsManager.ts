@@ -2,9 +2,9 @@ import Subject, { ECategory } from './Subject';
 import { GetSubjects } from './JsonManager';
 import SaveSubjects from './JsonManager';
 import { colorList } from '../component/EditForm';
-
+import Consts from "../model/Consts";
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
-const MAX_SEMESTER = 8;
+
 
 class SubjectManager {
     constructor () {
@@ -33,15 +33,15 @@ class SubjectManager {
     CountDegree(semester:number, countType:string) : number[] {
         var list : number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         switch(countType) {     
-            case "all":
-                for(let i = 1; i <= MAX_SEMESTER; i++) {
+            case "all":         // すべてのセメスター
+                for(let i = 1; i <= Consts.SEMESTER_NUM; i++) {
                     list = this.CountSemesterDegree(i, list);
                 }
                 break;
-            case "semester":
+            case "semester":    // 表示中のセメスター
                 list = this.CountSemesterDegree(semester, list);
                 break;
-            case "gotten":
+            case "gotten":      // 以前のセメスター
                 for(let i = 1; i < semester; i++) {
                     list = this.CountSemesterDegree(i, list);
                 }
@@ -50,12 +50,13 @@ class SubjectManager {
         return list;
     }
 
+    // 指定セメスターの単位数の計算
     private CountSemesterDegree(semester:number, list:number[]) {
         let isRegistered = new Array<boolean>(this.timeTable[semester-1].length);
-        isRegistered = isRegistered.map(item => false);
+        isRegistered = isRegistered.map(_ => false);
         this.timeTable[semester-1].forEach((subject, id) => {
             if(subject != null && subject != undefined && !isRegistered[id] && subject.SubjectName !== "" ) {
-                subject.Time.forEach(time => {isRegistered[time] = true});
+                subject.Time.forEach(time => {isRegistered[time] = true});      // この科目は登録されている
                 var str :string = ECategory[subject.Category];
                 list[parseInt(str)] += Number(subject.Degree);
                 if(parseInt(str) <= ECategory.専門その他) { list[list.length-1] = Number(list[list.length-1]) + Number(subject.Degree); }   // 専門科目なら合計に加える
@@ -63,6 +64,10 @@ class SubjectManager {
         });
         return list;
     }
+
+
+
+
 
     // 時間割の取得
     GetTimeTable(semester :number) :Subject[]  {
@@ -94,6 +99,7 @@ class SubjectManager {
         }
     }
 
+    // 科目の登録
     RegisterSubject(semester: number, id: number, name:string, color:string, degree:number, category:ECategory, isNew: boolean) {
         if (isNew) {
             let table = this.timeTable[semester-1];
@@ -111,6 +117,8 @@ class SubjectManager {
     }
     private timeTable : Subject[][];
 
+
+    // 時間割の保存
     SaveTimeTable = () => {
         SaveSubjects(this.timeTable);
     }

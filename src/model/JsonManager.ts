@@ -1,4 +1,5 @@
 import Subject, { ECategory } from "./Subject";
+import Consts from "../model/Consts";
 type parseSubject = {
         time : number[],
         name : string,
@@ -7,6 +8,8 @@ type parseSubject = {
         category : ECategory
 }
 const STORAGE_NAME = "subjects";
+
+
 
 export default function SaveSubjects (tableList: Subject[][]) {
     // eslint-disable-next-line
@@ -31,19 +34,17 @@ export default function SaveSubjects (tableList: Subject[][]) {
 }
 
 export function GetSubjects() : Subject[][] {
-    const CELL_MAX = 10* (5 + 1);
-    const SEMESTER_NUM = 8
-    var subjects :Array<Array<Subject>> = new Array(SEMESTER_NUM);
+    var subjects :Array<Array<Subject>> = new Array(Consts.SEMESTER_NUM);
     for (let i=0; i< subjects.length; i++) {
-        subjects[i] = new Array<Subject>();
+        subjects[i] = new Array<Subject>(Consts.SUBJECT_MAX_ID);
     }
-    var json:string = localStorage.getItem(STORAGE_NAME) ?? "null";
-    var subjectList :parseSubject[][] = JSON.parse(json) as parseSubject[][];
-    subjectList?.forEach((list, idx) => {
-        var registerdList : boolean[] = new Array(CELL_MAX);
+    var json: string = localStorage.getItem(STORAGE_NAME) ?? "null";             // Json‚©‚çŽžŠÔŠ„“Ç‚Ýž‚Ý(‚È‚¯‚ê‚Înull)
+    var parseObjects :parseSubject[][] = JSON.parse(json) as parseSubject[][];
+    parseObjects?.forEach((subjectsPerSeme, idx) => {
+        var registerdList: boolean[] = new Array(Consts.SUBJECT_MAX_ID);
         registerdList = registerdList.map(item => false);
-        if(list.length > 0) {
-            list.forEach(item => {
+        if(subjectsPerSeme.length > 0) {
+            subjectsPerSeme.forEach(item => {
                 var sub = new Subject(item.name, item.time, item.color, item.degree, item.category);
                 sub.Time.forEach((time)=>{
                     subjects[idx][time] = sub;

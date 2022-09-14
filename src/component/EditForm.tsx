@@ -1,9 +1,8 @@
 import React, {useContext} from "react";
 import { ECategory } from "../model/Subject";
 import { formContext, manager } from "../App";
+import Consts from "../model/Consts";
 
-
-const headers = ["月", "火", "水", "木", "金", "土", "日"];
 export const colorList: {[name:string] : string} = {
     "黄色" : "#FFFF66",
     "水色" : "#99FFFF",
@@ -111,7 +110,10 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
 
 
     return <div className="Form">
-        <h3>{headers[selectedSubject.id%10]}曜日{Math.floor(selectedSubject.id/10)+1}限目</h3>
+        {(selectedSubject.id < Consts.INTENSIVE_SUBJECT_ID)
+            ?   <h3>{Consts.DAYS[selectedSubject.id % 10]}曜日{Math.floor(selectedSubject.id / 10) + 1}限目</h3>
+            :   <h3>集中講義</h3> 
+        }
         <form>
             {selectedSubject.isRegistered
                 ? null
