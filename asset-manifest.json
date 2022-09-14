@@ -1,22 +1,15 @@
 {
   "files": {
-    "main.css": "/React-TimeTableSoftware/static/css/main.983b74ed.chunk.css",
-    "main.js": "/React-TimeTableSoftware/static/js/main.25e49f7c.chunk.js",
-    "main.js.map": "/React-TimeTableSoftware/static/js/main.25e49f7c.chunk.js.map",
-    "runtime-main.js": "/React-TimeTableSoftware/static/js/runtime-main.610cafd2.js",
-    "runtime-main.js.map": "/React-TimeTableSoftware/static/js/runtime-main.610cafd2.js.map",
-    "static/js/2.36922759.chunk.js": "/React-TimeTableSoftware/static/js/2.36922759.chunk.js",
-    "static/js/2.36922759.chunk.js.map": "/React-TimeTableSoftware/static/js/2.36922759.chunk.js.map",
-    "static/js/3.ff469286.chunk.js": "/React-TimeTableSoftware/static/js/3.ff469286.chunk.js",
-    "static/js/3.ff469286.chunk.js.map": "/React-TimeTableSoftware/static/js/3.ff469286.chunk.js.map",
+    "main.css": "/React-TimeTableSoftware/static/css/main.3b133e5d.css",
+    "main.js": "/React-TimeTableSoftware/static/js/main.77883c8f.js",
+    "static/js/787.38c543e7.chunk.js": "/React-TimeTableSoftware/static/js/787.38c543e7.chunk.js",
     "index.html": "/React-TimeTableSoftware/index.html",
-    "static/css/main.983b74ed.chunk.css.map": "/React-TimeTableSoftware/static/css/main.983b74ed.chunk.css.map",
-    "static/js/2.36922759.chunk.js.LICENSE.txt": "/React-TimeTableSoftware/static/js/2.36922759.chunk.js.LICENSE.txt"
+    "main.3b133e5d.css.map": "/React-TimeTableSoftware/static/css/main.3b133e5d.css.map",
+    "main.77883c8f.js.map": "/React-TimeTableSoftware/static/js/main.77883c8f.js.map",
+    "787.38c543e7.chunk.js.map": "/React-TimeTableSoftware/static/js/787.38c543e7.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.610cafd2.js",
-    "static/js/2.36922759.chunk.js",
-    "static/css/main.983b74ed.chunk.css",
-    "static/js/main.25e49f7c.chunk.js"
+    "static/css/main.3b133e5d.css",
+    "static/js/main.77883c8f.js"
   ]
 }
