@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/React-TimeTableSoftware/static/css/main.5021cacd.css",
-    "main.js": "/React-TimeTableSoftware/static/js/main.cee7ed45.js",
+    "main.js": "/React-TimeTableSoftware/static/js/main.5c104aff.js",
     "static/js/787.38c543e7.chunk.js": "/React-TimeTableSoftware/static/js/787.38c543e7.chunk.js",
     "index.html": "/React-TimeTableSoftware/index.html",
     "main.5021cacd.css.map": "/React-TimeTableSoftware/static/css/main.5021cacd.css.map",
-    "main.cee7ed45.js.map": "/React-TimeTableSoftware/static/js/main.cee7ed45.js.map",
+    "main.5c104aff.js.map": "/React-TimeTableSoftware/static/js/main.5c104aff.js.map",
     "787.38c543e7.chunk.js.map": "/React-TimeTableSoftware/static/js/787.38c543e7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5021cacd.css",
-    "static/js/main.cee7ed45.js"
+    "static/js/main.5c104aff.js"
   ]
 }
