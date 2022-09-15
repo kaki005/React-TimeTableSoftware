@@ -1,6 +1,6 @@
 import React from 'react';
 import Subject from "../model/Subject";
-
+import "../TimeTable.css";
 
 interface IProps {
     subject : Subject | null | undefined

@@ -1,6 +1,5 @@
 .DegreeCounter {
     padding-top: 3px;
-    max-width : 1000px;
     background-color: var(--counter-color,#5ab4bd);
     align-content: center;
     display: -webkit-flex;
@@ -9,9 +8,9 @@
 }
 
 .CounterCell {
-    width: 100px;
+    width: 80px;
     margin: 2px;
-    height: 95px;
+    height: 80px;
     border: 1px solid white;
     text-align: center;
     background-color: white;
@@ -23,6 +22,7 @@
     padding-bottom: 15px;
     text-align: center;
     border-bottom: solid gray 1px;
+    font-size: 13px;
 }
 
 
@@ -33,7 +33,7 @@
     color: white;
     padding: 0.5em 1em;
     border-radius: 5px;
-
+    transform: translateY(-100%);
 }
 
     .Tooltip tr {

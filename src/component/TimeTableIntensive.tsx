@@ -7,6 +7,7 @@ import { formContext, manager, semesterTabContext } from "../App";
 import { MouseEvent } from "react";
 import { toNameList } from "./EditForm";
 import Consts from "../model/Consts";
+import "../TimeTable.css";
 
 const defaultSub : Subject = new  Subject("", [], "", 2, ECategory.None);
 interface IProp {
@@ -40,7 +41,7 @@ const TimeTableIntensive: React.VFC<IProp> = (prop :IProp) => {
 
     const setFormNewSubject = (e: MouseEvent<HTMLElement>) => {
         for (let i = Consts.INTENSIVE_SUBJECT_ID; i < Consts.SUBJECT_MAX_ID; i++) {
-            if (TimeTable[i] != null) continue;         // 登録されていれば次のID
+            if (TimeTable[i] != null　&& TimeTable[i].SubjectName !== "") continue;         // 登録されていれば次のID
             setSubject({
                 id: i,
                 isRegistered: false,

@@ -171,13 +171,13 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
             {selectedSubject.isRegistered ?
                 (<div>
                 <button onClick={onSubmit} className="btn btn-primary">保存</button>
+                <button onClick={Clear} className="btn btn-secondary">クリア</button>
                 <button onClick={DeleteSubject} className="btn btn-danger">削除</button>
-                <button onClick={Clear} className="btn btn-primary">クリア</button>
                 </div>)
             : selectedSubject.selectOption === "new"
                 ?(<div>
                     <button onClick={RegisterSubject} className="btn btn-primary">登録</button>
-                    <button onClick={Clear} className="btn btn-primary">クリア</button>
+                    <button onClick={Clear} className="btn btn-secondary">クリア</button>
                 </div>)
                 :(
                     <div>

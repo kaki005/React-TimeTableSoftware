@@ -44,11 +44,11 @@ const DegreeCounter : React.VFC<IProps>  = (props :IProps) =>{
                 {(() => {
                     const items = [];
                     for (let i = 1; i <= ECategory.専門その他; i++) {
-                        items.push(<CounterCell categoryName={ECategory[i]} subjects={subjects[i]} />);
+                        items.push(<CounterCell categoryName={ECategory[i]} subjects={subjects[i]} key={i}/>);
                     }
-                    items.push(<CounterCell categoryName={"専門合計"} subjects={subjects[subjects.length - 1]} />);
+                    items.push(<CounterCell categoryName={"専門合計"} subjects={subjects[subjects.length - 1]} key={subjects.length - 1}/>);
                     for (let i = ECategory.専門その他+1; i <= ECategory.その他; i++) {
-                        items.push(<CounterCell categoryName={ECategory[i]} subjects={subjects[i]} />);
+                        items.push(<CounterCell categoryName={ECategory[i]} subjects={subjects[i]} key={i}/>);
                     }
                     return items;
                 })()}
