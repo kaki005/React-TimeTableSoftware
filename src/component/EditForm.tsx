@@ -39,23 +39,21 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
         const name: string = e.target.name;
         let value = e.target.value;
+        let color = selectedSubject.tempColor;
         if (name === "tempCategory") {
-            let color = selectedSubject.tempColor;
             if (e.target.value === "") {
                 value = "None";
             }
             if (selectedSubject.tempColor === "") {
                 color = Consts.category2colorDic[value];
-                setSubject({
-                    ...selectedSubject,
-                    ["tempColor"]: color,
-                    //[name]: value,
-                });
-                //return;
             }
+        }
+        else if (name === "tempColor") {
+            color = value;
         }
         setSubject({
             ...selectedSubject,
+            ["tempColor"]: color,
             [name]: value,
         });
     }
