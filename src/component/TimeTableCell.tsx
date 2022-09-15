@@ -1,6 +1,7 @@
 import React from 'react';
-import Subject from "../model/Subject";
+import Subject, { ECategory } from "../model/Subject";
 import "../TimeTable.css";
+import Consts from "../model/Consts";
 
 interface IProps {
     subject : Subject | null | undefined
@@ -9,7 +10,7 @@ interface IProps {
 
 const TableCell: React.VFC<IProps>= (props : IProps)=> {
     const style = {
-        background: props.subject === undefined ?"white" : props.subject?.Color,
+        background: props.subject === undefined ? "white" : props.subject?.Color,
         height :150
     };
     return (

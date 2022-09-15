@@ -2,22 +2,11 @@ import React, {useContext} from "react";
 import { ECategory } from "../model/Subject";
 import { formContext, manager } from "../App";
 import Consts from "../model/Consts";
+import { debug } from "console";
 
-export const colorList: {[name:string] : string} = {
-    "黄色" : "#FFFF66",
-    "水色" : "#99FFFF",
-    "ピンク": "#FFAAFF",
-    "緑色"  : "#93FFAB",
-    "青色" : "#75A9FF",
-    "灰色" : "#BBBBBB",
-    "赤色": "#FF5190",
-    "オレンジ" : "#FFCC66",
-    "紫色" : "#DCC2FF",
-    "黄緑色" : "#CCFF00",
-  };
 export const toNameList: {[name:string] : string} = {};
-Object.keys(colorList).forEach(name => { 
-        toNameList[colorList[name]] = name;
+Object.keys(Consts.colorList).forEach(name => { 
+        toNameList[Consts.colorList[name]] = name;
   });
 interface IProp {
     semester : number
@@ -48,14 +37,19 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
 
     // 値の変化時
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
-        const name :string = e.target.name;
+        const name: string = e.target.name;
+        let color = selectedSubject.tempColor;
         let value = e.target.value;
-        if(name == "tempCategory" && e.target.value === "") {
-            value = "None";
+        if (name === "tempCategory") {
+            if (e.target.value === "") {
+                value = "None";
+            }
+            color = Consts.category2colorDic[value];
         }
         setSubject({
             ...selectedSubject,
-           [name] : value
+            [name]: value,
+            ["tempColor"]: color,
         });
     }
 
@@ -152,18 +146,18 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="color">色</label>
-                        <select id="color" className="form-control" value={selectedSubject.tempColor} name="tempColor" onChange={onChanged}>
-                            <option></option>
-                            {Object.keys(colorList).map(key => <option key={key}>{key}</option>)}
+                        <label htmlFor="category">区分</label>
+                        <select id="category" className="form-control" value={selectedSubject.tempCategory} name="tempCategory" onChange={onChanged} >
+                            {manager.Categories.map((value, idx) => value !== "" ? <option key={idx + 1} >{value !== "None" ? value : null}</option> : null)}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="category">区分</label>
-                        <select id="category" className="form-control" value={selectedSubject.tempCategory} name="tempCategory" onChange={onChanged} >
-                            {manager.Categories.map((value, idx) => value !=="" ? <option key={idx+1}>{value !== "None" ? value : null}</option> : null)}
+                        <label htmlFor="color">色</label>
+                        <select id="color" className="form-control" value={selectedSubject.tempColor} name="tempColor" onChange={onChanged}>
+                            <option></option>
+                            {Object.keys(Consts.colorList).map(key => <option key={key}>{key}</option>)}
                         </select>
-                   </div>
+                    </div>
                 </div>)
                }
         </form>

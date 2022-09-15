@@ -1,7 +1,6 @@
 import Subject, { ECategory } from './Subject';
 import { GetSubjects } from './JsonManager';
 import SaveSubjects from './JsonManager';
-import { colorList } from '../component/EditForm';
 import Consts from "../model/Consts";
 const defaultSub : Subject = new  Subject("", [], "white", 2, ECategory.None);
 
@@ -126,15 +125,15 @@ class SubjectManager {
         if(this.timeTable[semester-1][id].Time.length > 1 ) {
             let ans = window.confirm("同じ授業の他の時間のデータも変更しますか？");
             if(ans === true) {
-                this.timeTable[semester-1][id].ChangeData(name, colorList[color], degree, category);
+                this.timeTable[semester-1][id].ChangeData(name, Consts.colorList[color], degree, category);
             }
             else {
                 this.timeTable[semester-1][id].ReduceTime(id);
-                this.timeTable[semester-1][id] = new Subject(name, [id], colorList[color], degree, category);
+                this.timeTable[semester - 1][id] = new Subject(name, [id], Consts.colorList[color], degree, category);
             }
         }
         else {
-            this.timeTable[semester-1][id].ChangeData(name, colorList[color], degree, category);
+            this.timeTable[semester - 1][id].ChangeData(name, Consts.colorList[color], degree, category);
         }
     }
 
@@ -142,7 +141,7 @@ class SubjectManager {
     RegisterSubject(semester: number, id: number, name:string, color:string, degree:number, category:ECategory, isNew: boolean) {
         if (isNew) {
             let table = this.timeTable[semester-1];
-            table[id] = new Subject(name, [id], colorList[color], degree, category);
+            table[id] = new Subject(name, [id], Consts.colorList[color], degree, category);
             this.timeTable.forEach(table => console.log(table[id]));
         }
         else {

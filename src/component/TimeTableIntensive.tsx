@@ -63,10 +63,10 @@ const TimeTableIntensive: React.VFC<IProp> = (prop :IProp) => {
             <div className="IntensiveSubjectsBox">
                     {TimeTable.map((subject, idx) => {
                         if (idx < Consts.INTENSIVE_SUBJECT_ID) return null
-                        if (subject== null || subject.SubjectName == "") return null;
-                        return <th onClick={(e) => setFormExistSubject(idx)} style={{ width:"120px" }}>
+                        if (subject === null || subject.SubjectName === "") return null;
+                        return <div onClick={(e) => setFormExistSubject(idx)} style={{ width: "120px" }} key={idx}>
                             <TableCell subject={subject} />
-                        </th>
+                        </div>
                     })}
             </div>
             <button className="btn btn-primary" onClick={setFormNewSubject}>新規追加</button>

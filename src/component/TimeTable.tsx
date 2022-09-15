@@ -7,6 +7,7 @@ import { formContext, manager, semesterTabContext } from "../App";
 import { toNameList } from "./EditForm";
 import Consts from "../model/Consts";
 import "../TimeTable.css";
+import { ECANCELED } from "constants";
 
 const defaultSub : Subject = new  Subject("", [], "", 2, ECategory.None);
 
@@ -20,6 +21,8 @@ const TimeTables: React.VFC<IProp> = (prop :IProp) => {
     const { Semester, setSemester } = useContext(semesterTabContext);
     const [showWeekend, setShowWeekend] = useState(false);
 
+
+
     useEffect(() => {
         setTimeTable(manager.GetTimeTable(prop.semester));
     }, [Semester, setSemester]);             // 表示セメスターが変更されたら時間割内容を
@@ -29,7 +32,6 @@ const TimeTables: React.VFC<IProp> = (prop :IProp) => {
     const setDataForm = (id: number) => {
         // eslint-disable-next-line
         if (TimeTable[id] != undefined && TimeTable[id].SubjectName !== "") {
-            console.log("new");
             setSubject({
                 id: id,
                 isRegistered: true,
@@ -42,7 +44,6 @@ const TimeTables: React.VFC<IProp> = (prop :IProp) => {
             });
         }
         else {      // 登録されていなければ
-            console.log("exisits");
             setSubject({
                 id: id,
                 isRegistered: false,

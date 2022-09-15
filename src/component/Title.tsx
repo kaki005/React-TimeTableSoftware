@@ -1,4 +1,4 @@
-export const Title :React.FC = () => {
+export const Title: React.FC = () => {
     return <div className="TitleContainer">
         <h1>阪大単位計算時間割アプリ</h1>
         <div>
