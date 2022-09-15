@@ -48,10 +48,10 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
                 color = Consts.category2colorDic[value];
                 setSubject({
                     ...selectedSubject,
-                    [name]: value,
                     ["tempColor"]: color,
+                    //[name]: value,
                 });
-                return;
+                //return;
             }
         }
         setSubject({
