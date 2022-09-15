@@ -44,7 +44,9 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
             if (e.target.value === "") {
                 value = "None";
             }
-            color = Consts.category2colorDic[value];
+            if (selectedSubject.tempColor === "") {
+                color = Consts.category2colorDic[value];
+            }
         }
         setSubject({
             ...selectedSubject,
