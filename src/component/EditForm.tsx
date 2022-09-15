@@ -38,20 +38,25 @@ const EditForm :React.FC<IProp> = (prop :IProp) =>{
     // 値の変化時
     const onChanged= (e :(React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>))=>{
         const name: string = e.target.name;
-        let color = selectedSubject.tempColor;
         let value = e.target.value;
         if (name === "tempCategory") {
+            let color = selectedSubject.tempColor;
             if (e.target.value === "") {
                 value = "None";
             }
             if (selectedSubject.tempColor === "") {
                 color = Consts.category2colorDic[value];
+                setSubject({
+                    ...selectedSubject,
+                    [name]: value,
+                    ["tempColor"]: color,
+                });
+                return;
             }
         }
         setSubject({
             ...selectedSubject,
             [name]: value,
-            ["tempColor"]: color,
         });
     }
 
