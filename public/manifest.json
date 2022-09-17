@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ReactTimeTableApp",
+  "name": "HandaiReactTimeTable",
   "homepage": "https://dev-yakuza-org.github.io/todo",
   "icons": [
     {
